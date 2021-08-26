@@ -3,38 +3,38 @@ version: '3'
 services:
 
   # used as base for all services
-  test: &defaults
-    build:
-      context: .
-      target: base
-    working_dir: /app/
-    command: go test -v ./...
-    environment:
-      - ENVIRONMENT=dev
-      - PORT=80 # dont forget when change this value here &&&
-      - CGO_ENABLED=0
-      - GOOS=linux
-    volumes:
-      - .:/app/
+#  test: &defaults
+#    build:
+#      context: .
+#      target: builder
+#    working_dir: /app/
+#    command: go test -v ./...
+#    environment:
+#      - ENVIRONMENT=dev
+#      - PORT=80
+#      - CGO_ENABLED=0
+#      - GOOS=linux
+#    volumes:
+#      - .:/app/
 
-  #app:
-  #  container_name: full_app
-  #  build: .
-  #  ports: 
-  #    - 8080:8080 
-  #  restart: on-failure
-  #  volumes:
-  #    - api:/app/
-  #  depends_on:
-  #    - unico-mysql          
-  #  networks:
-  #    - netunico
-  #  environment: 
-  #    - MYSQL_ROOT_HOST=${DB_HOST} 
-  #    - MYSQL_USER=${DB_USER}
-  #    - MYSQL_PASSWORD=${DB_PASSWORD}
-  #    - MYSQL_DATABASE=${DB_NAME}
-  #    - ENVIRONMENT=dev
+  app:
+    container_name: full_app
+    build: .
+    ports: 
+      - 8080:8080 
+    restart: on-failure
+    volumes:
+      - api:/app/
+    depends_on:
+      - unico-mysql          
+    networks:
+      - netunico
+    environment: 
+      - MYSQL_ROOT_HOST=${DB_HOST} 
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - ENVIRONMENT=dev
 
   unico-mysql:
     image: mysql:5.7
@@ -55,7 +55,7 @@ services:
       - netunico
   
 volumes:
-  #api:
+  api:
   database_mysql:                  
 
 networks:

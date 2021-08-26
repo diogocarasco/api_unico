@@ -9,7 +9,8 @@ import (
 )
 
 func init() {
-	if os.Getenv("ENVIRONMENT") != "dev" {
+
+	if os.Getenv("ENVIRONMENT") == "prod" {
 		tracer := instana.NewTracerWithOptions(instana.DefaultOptions())
 		opentracing.SetGlobalTracer(tracer)
 		instana.SetLogger(logrus.StandardLogger())

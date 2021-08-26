@@ -17,13 +17,13 @@ func GetServer() *gin.Engine {
 	server.Use(gin.Recovery())
 	server.Use(middlewares.InstanaTracerMiddleware())
 
-	server.GET("/", func(c *gin.Context) { c.JSON(200, gin.H{"message": "Hello!!"}) }) // HELLO!
-	server.GET("/feira", controllers.GetFeiras)                                        // Fetch all rows
-	server.GET("/feira/:id", controllers.GetFeirasById)                                // Fetch rows by ID
-	server.DELETE("/feira/:id", controllers.DeleteFeiras)                              // Delete row by ID
-	server.POST("/feira", controllers.InsertFeiras)                                    // Insert row
-	server.PATCH("/feira/:id", controllers.UpdateFeiras)                               // Update row
-	server.POST("feira/upload", controllers.ImportFeiras)                              // Import data from CSV file
+	server.GET("/", func(c *gin.Context) { c.JSON(200, "Hello!!") }) // HELLO!
+	server.GET("/feira", controllers.GetFeiras)                      // Fetch all rows
+	server.GET("/feira/:id", controllers.GetFeirasById)              // Fetch rows by ID
+	server.DELETE("/feira/:id", controllers.DeleteFeiras)            // Delete row by ID
+	server.POST("/feira", controllers.InsertFeiras)                  // Insert row
+	server.PATCH("/feira/:id", controllers.UpdateFeiras)             // Update row
+	server.POST("feira/upload", controllers.ImportFeiras)            // Import data from CSV file
 
 	server.Use(gin.Recovery())
 

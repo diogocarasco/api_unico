@@ -95,7 +95,7 @@ func DeleteFeiras(c *gin.Context) {
 // UpdateFeiras update row from FEIRAS
 func UpdateFeiras(c *gin.Context) {
 
-	var feirasinput input.UpdateFeirasInput
+	var feirasinput models.Feiras
 	err := c.ShouldBindJSON(&feirasinput)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -111,7 +111,10 @@ func UpdateFeiras(c *gin.Context) {
 		return
 	}
 
-	database.DB.Model(&feiras).Updates(feirasinput)
+	upderr := database.DB.Model(&feiras).Omit("id").Debug().Updates(feirasinput)
+	if upderr != nil {
+		logrus.Debug(upderr.Error)
+	}
 
 	c.JSON(http.StatusOK, gin.H{"data": feiras})
 	logrus.Debug(gin.H{"data": feiras})

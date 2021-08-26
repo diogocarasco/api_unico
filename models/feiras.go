@@ -22,6 +22,6 @@ type Feiras struct {
 	REGISTRO   string  `json:"registro"`
 	LOGRADOURO string  `json:"logradouro"`
 	NUMERO     string  `json:"numero"`
-	BAIRRO     string  `json:"bairro"`
+	BAIRRO     string  `json:"bairro"` // add index here
 	REFERENCIA string  `json:"referencia"`
 }
