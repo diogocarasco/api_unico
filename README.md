@@ -9,12 +9,21 @@ to install this plugin, follow these steps:
 - install [Docker](https://docs.docker.com/engine/install/ubuntu/)
 - install [Docker compose](https://docs.docker.com/compose/install/)
 
-and all you need to run is...
+What you need to run is...
 
+Start the database container
 ```sh
-docker-compose up 
+docker-compose up unico-mysql
 ```
 
-If your application is not up and running, try to double check the envs in `docker-compose.yaml` file
+Start the application
+```sh
+./run.sh app
+```
+
+For testing, run:
+```sh
+./run.sh test
+```
 
 
