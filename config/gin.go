@@ -25,7 +25,5 @@ func GetServer() *gin.Engine {
 	server.PATCH("/feira/:id", controllers.UpdateFeiras)             // Update row
 	server.POST("feira/upload", controllers.ImportFeiras)            // Import data from CSV file
 
-	server.Use(gin.Recovery())
-
 	return server
 }

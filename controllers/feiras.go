@@ -45,7 +45,7 @@ func GetFeirasById(c *gin.Context) {
 
 	err := database.DB.Where("id = ?", c.Param("id")).First(&feiras).Error
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"data": "[]"})
+		c.JSON(http.StatusBadRequest, gin.H{"data": "{}"})
 		logrus.Info("data:" + "[]")
 		return
 	}
@@ -81,7 +81,7 @@ func DeleteFeiras(c *gin.Context) {
 
 	err := database.DB.Where("id = ?", c.Param("id")).First(&feiras).Error
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"data": "[]"})
+		c.JSON(http.StatusBadRequest, gin.H{"data": "{}"})
 		return
 	}
 
@@ -106,12 +106,12 @@ func UpdateFeiras(c *gin.Context) {
 	var feiras models.Feiras
 	err = database.DB.Where("id = ?", c.Param("id")).First(&feiras).Error
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"data": "[]"})
+		c.JSON(http.StatusBadRequest, gin.H{"data": "{}"})
 		logrus.Info("error:" + err.Error())
 		return
 	}
 
-	upderr := database.DB.Model(&feiras).Omit("id").Debug().Updates(feirasinput)
+	upderr := database.DB.Model(&feiras).Omit("id").Updates(feirasinput)
 	if upderr != nil {
 		logrus.Debug(upderr.Error)
 	}
@@ -126,28 +126,28 @@ func ImportFeiras(c *gin.Context) {
 	file, err := c.FormFile("file")
 	if err != nil {
 		logrus.Debug(err.Error())
-		c.String(http.StatusBadRequest, fmt.Sprintf("File %s proccessed unsuccessfully.", file.Filename))
+		c.String(http.StatusBadRequest, fmt.Sprintf("File %s processed unsuccessfully.", file.Filename))
 		return
 	}
 
 	filename := filepath.Base(file.Filename)
 	if err := c.SaveUploadedFile(file, "data/import/"+filename); err != nil {
 		logrus.Debug(err.Error())
-		c.String(http.StatusBadRequest, fmt.Sprintf("File %s proccessed unsuccessfully.", file.Filename))
+		c.String(http.StatusBadRequest, fmt.Sprintf("File %s processed unsuccessfully.", file.Filename))
 		return
 	}
 
 	content, errors := utils.ImportFile("data/import/" + filename)
 	if errors != nil {
-		c.String(http.StatusBadRequest, fmt.Sprintf("File %s proccessed unsuccessfully.", file.Filename))
+		c.String(http.StatusBadRequest, fmt.Sprintf("File %s processed unsuccessfully.", file.Filename))
 	} else {
 		err := database.DB.Create(&content)
 		if err.Error != nil {
-			c.String(http.StatusBadRequest, fmt.Sprintf("File %s proccessed unsuccessfully.", file.Filename))
+			c.String(http.StatusBadRequest, fmt.Sprintf("File %s processed unsuccessfully.", file.Filename))
 			logrus.Debug(err.Error)
 			return
 		}
-		c.String(http.StatusOK, fmt.Sprintf("File %s proccessed successfully.", file.Filename))
+		c.String(http.StatusOK, fmt.Sprintf("File %s processed successfully.", file.Filename))
 	}
 
 }
